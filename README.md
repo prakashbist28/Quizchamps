@@ -6,7 +6,6 @@ Quiz Application is a multi page application. It is a fully responsive web appli
 ## Links
 
 * Live = [https://quizchamps.vercel.app/]
-* server = [https://quizchampsapi.onrender.com/api/quiz]
 
 
 ## Description
