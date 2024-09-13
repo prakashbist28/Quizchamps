@@ -5,7 +5,7 @@ Quiz Application is a multi page application. It is a fully responsive web appli
 
 ## Links
 
-* Live = [https://quizchamps.vercel.app/]
+* Live = [https://quizchamps.vercel.app/] . Initially server might take time to respond please be patient.
 
 
 ## Description
@@ -20,9 +20,13 @@ Quiz Application is a multi page application. It is a fully responsive web appli
 
 * Analysis Report : When quiz ends, a new component is loaded which confirms quiz has ended and displays the result of the quiz. An analysis button is provided to the user to check where user was right and where user was wrong.
 
+* Celebration : Based on % of score, different emoji animation and text would be rendered on quiz completion. Divisions are 100%, 75-99%, 50-75%, below 50% (provided screenshots below). 
+
 * Theme : I implemented light and dark modes in this project
 
 * Timer : Implemented timer logic as well.
+
+
 
 
 ## Technologies Used
