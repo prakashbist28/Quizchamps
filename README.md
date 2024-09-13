@@ -22,6 +22,8 @@ Quiz Application is a multi page application. It is a fully responsive web appli
 
 * Theme : I implemented light and dark modes in this project
 
+* Timer : Implemented timer logic as well.
+
 
 ## Technologies Used
 
