@@ -14,7 +14,7 @@ Quiz Application is a multi page application. It is a fully responsive web appli
   
 * Create Quiz : In create Quiz page, there is a form using which user can give a title to the new quiz, add questions, set options, set correct option and set timelimit for each question. user can add any number of questions.
 
-* Form : Implemented validaions. User cannot repeat same option otherwise error will be thrown by server which will be displayed as toast message.
+* Form : Implemented validations. User cannot repeat same option otherwise error will be thrown by server which will be displayed as toast message.
 
 * Take Quiz : On clicking take quiz button in home page user navigates to quiz page where list of cards of all available quizzes is shown. By clicking on any of the quiz card user can start that particular quiz.
 
