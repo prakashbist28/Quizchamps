@@ -28,9 +28,10 @@ const Analysis = ({ score, quiz, selectedAnswers }) => {
               <div
                 key={index}
                 className={`flex flex-col md:pl-8 lg:flex-row justify-between  p-6 rounded-lg shadow-lg border-2 ${
-                  isCorrect
+                  userAnswer ? isCorrect
                     ? "border-green-200 bg-green-200 dark:bg-green-800/40 "
                     : "border-red-200 bg-red-200 dark:bg-red-800/40 "
+                    : "border-red-200 bg-yellow-200 dark:bg-yellow-500/40 "
                 }`}
               >
                 <div>
@@ -40,7 +41,7 @@ const Analysis = ({ score, quiz, selectedAnswers }) => {
                   <div className="mt-4">
                     <p
                       className={`font-semibold font-ten ${
-                        isCorrect ? "text-green-600" : "text-red-600"
+                        userAnswer ? isCorrect ? "text-green-600" : "text-red-600" : "text-yellow-600"
                       }`}
                     >
                       Your Answer: {userAnswer || "No answer selected"}
@@ -52,16 +53,16 @@ const Analysis = ({ score, quiz, selectedAnswers }) => {
                 </div>
 
                 <div className="flex items-center justify-center">
-                  {isCorrect ? (
+                  {userAnswer ? isCorrect ? (
                     <h1 className=" text-[24px]  mt-4 md:mt-0 md:text-[24px] lg:text-[32px] text-green-600">
                       Correct (+1){" "}
                     </h1>
                   ) : (
                     <h1 className="text-[24px]  mt-4 md:mt-0 md:text-[24px] lg:text-[32px] text-red-600">
                       {" "}
-                      Wrong(-1)
+                      Wrong (0)
                     </h1>
-                  )}
+                  ) : <h1 className="text-[24px]  mt-4 md:mt-0 md:text-[24px] lg:text-[32px] text-yellow-600"> Didn't Answer (0)</h1>}
                 </div>
               </div>
             );

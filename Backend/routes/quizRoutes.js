@@ -7,3 +7,4 @@ router.get('/quiz', quizController.getAllQuizzes);
 router.post('/createquiz', quizController.createQuiz);
 
 module.exports = router;
+ 

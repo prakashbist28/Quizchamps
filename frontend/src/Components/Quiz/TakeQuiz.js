@@ -5,6 +5,9 @@ import ClockLoader from "react-spinners/ClockLoader";
 import { SiTicktick } from "react-icons/si";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const TakeQuiz = () => {
   const { id } = useParams();
@@ -18,6 +21,16 @@ const TakeQuiz = () => {
   const [quesno, setQuesno] = useState(1);
 
   const [selectedAnswers, setSelectedAnswers] = useState([]);
+
+  const toastOptions= {
+    position:"top-center",
+    autoClose:3000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+    transition : Bounce,
+}
+
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -60,7 +73,12 @@ const TakeQuiz = () => {
     setSelectedAnswers((prev) => [...prev, selectedOption]);
 
     if (selectedOption === quiz.questions[currentQuestionIndex].answer) {
+      
       setScore((prevScore) => prevScore + 1);
+      toast.success( ' Correct Answer', toastOptions)
+    }
+    else {
+    toast.error( ' Wrong Answer', toastOptions)
     }
     setSelectedOption(null);
 
@@ -194,6 +212,7 @@ const TakeQuiz = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
