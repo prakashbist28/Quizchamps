@@ -26,6 +26,8 @@ Quiz Application is a multi page application. It is a fully responsive web appli
 
 * Timer : Implemented timer logic as well.
 
+* Search : Implemented Search functionality to search for a quiz.
+
 
 
 
@@ -89,11 +91,11 @@ Quiz Application is a multi page application. It is a fully responsive web appli
 
 
 * Light Mode :
-![image](https://github.com/user-attachments/assets/a8be2658-7ac4-4c7b-9e3d-fa1547678399)
+![image](https://github.com/user-attachments/assets/85dfb1d7-e4a4-4ee6-8f3f-78dd16d9701a)
 
 
 * Dark Mode :
-![image](https://github.com/user-attachments/assets/3bf11504-3eab-4b33-bca9-153526272206)
+![image](https://github.com/user-attachments/assets/b7e933dc-a0cb-468c-85ff-645f0a48bcb7)
 
 
 
