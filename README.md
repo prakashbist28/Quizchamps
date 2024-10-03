@@ -1,4 +1,4 @@
-# Project Title
+# QUIZ CHAMPS
 
 Quiz Application is a multi page application. It is a fully responsive web application. Here user can create or take quiz tests.
 
