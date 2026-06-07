@@ -1,156 +1,245 @@
-# QUIZ CHAMPS
 
-Quiz Application is a multi page application. It is a fully responsive web application. Here user can create or take quiz tests.
+# QuizChamps
 
+A full-stack quiz platform where users can create, manage, discover, and attempt quizzes while tracking their performance through detailed analytics and attempt history.
+
+---
 
 ## Links
 
 * Live = [https://quizchamps.vercel.app/] . Initially server might take time to respond please be patient.
 
 
-## Description
+## Features
 
-* Home Page : On main page user has two choices either he can create a quiz or take a quiz test. Implemented carousel as well.
-  
-* Create Quiz : In create Quiz page, there is a form using which user can give a title to the new quiz, add questions, set options, set correct option and set timelimit for each question. user can add any number of questions.
+### Authentication & User Accounts
 
-* Form : Implemented validations. User cannot repeat same option otherwise error will be thrown by server which will be displayed as toast message.
+* User Registration
+* User Login & Logout
+* JWT-based Authentication
+* Protected Routes
+* Profile Management
+* Avatar Upload Support
+* Default Avatar Selection
+* Change Password Functionality
 
-* Take Quiz : On clicking take quiz button in home page user navigates to quiz page where list of cards of all available quizzes is shown. By clicking on any of the quiz card user can start that particular quiz.
+---
 
-* Analysis Report : When quiz ends, a new component is loaded which confirms quiz has ended and displays the result of the quiz. An analysis button is provided to the user to check where user was right and where user was wrong.
+### Home Page
 
-* Celebration : Based on % of score, different emoji animation and text would be rendered on quiz completion. Divisions are 100%, 75-99%, 50-75%, below 50% (provided screenshots below). 
+* Modern Landing Page
+* Interactive Carousel
+* Light & Dark Mode Support
+* Quick Access to Quiz Creation and Quiz Discovery
 
-* Theme : I implemented light and dark modes in this project
+---
 
-* Timer : Implemented timer logic as well.
+### Quiz Creation
 
-* Search : Implemented Search functionality to search for a quiz.
+Authenticated users can create and manage quizzes with:
 
+* Quiz Title
+* Quiz Description
+* Category Selection
+* Difficulty Selection (Easy, Medium, Hard)
+* Public / Private Visibility
+* Unlimited Questions
+* Multiple Options per Question
+* Correct Answer Selection
+* Per-Question Timer
+* Optional Answer Explanations
 
+---
 
+### Quiz Management
 
-## Technologies Used
+* My Quizzes Dashboard
+* Edit Owned Quizzes
+* Delete Owned Quizzes
+* Visibility Controls
+* Public and Private Quizzes
 
-* Reactjs
-* Nodejs
-* Express
-* MongoDb
-* TailwindCSS
+---
 
+### Quiz Discovery
 
-## Screen Shots
+* Search Quizzes
+* Filter by Category
+* Filter by Difficulty
+* Public / Private Quiz Filtering
+* Dedicated Access to User's Private Quizzes
+* Category-Themed Quiz Cards
 
-### Home Page 
+Supported Categories:
 
-* User has two choices - create a quiz or take a quiz.
-  
-* Light Mode :
-![image](https://github.com/user-attachments/assets/df79ab80-ee76-4cd7-bb39-61e95c6e969d)
+* JavaScript
+* React
+* Node.js
+* HTML
+* CSS
+* Science
+* History
+* General Knowledge
 
+---
 
-* Dark Mode :
-![image](https://github.com/user-attachments/assets/a147b44d-2b6a-4f02-ba3c-3f5122bd2450)
+### Quiz Attempt System
 
+* Timed Quiz Attempts
+* Automatic Result Calculation
+* Persistent Attempt Storage
+* Detailed Attempt Records
+* User-Specific Attempt History
 
+---
 
-### Create Quiz
+### Analysis Report
 
-* Light Mode :
-![image](https://github.com/user-attachments/assets/981df495-a0d8-42b4-ab30-f80c39d1272d)
+After quiz completion users can view:
 
+* Final Score
+* Percentage Score
+* Correct Answers
+* Incorrect Answers
+* Question-by-Question Analysis
+* User Answer vs Correct Answer
+* Answer Explanations
 
-* Dark Mode :
-![image](https://github.com/user-attachments/assets/fa5d382c-5413-45ad-b0b3-cf71ea3e8d40)
+---
 
+### User Dashboard
 
+Track learning progress with:
 
-### Create Quiz Success
+* Total Quizzes Taken
+* Total Quizzes Created
+* Average Score
+* Best Score
+* Recent Activity
+* Attempt History
 
-* On clicking create quiz button :
+---
 
-* Progess :
-![image](https://github.com/user-attachments/assets/03bd2ca9-613b-4abc-b940-54842130dc7e)
+### Creator Analytics
 
+Quiz creators can view:
 
-* Light Mode :
-![image](https://github.com/user-attachments/assets/41794e55-d783-476b-bfb8-cfffdd6e478c)
+* Total Attempts
+* Average Score
+* Highest Score
+* Lowest Score
+* Completion Count
 
+---
 
-* Dark Mode :
-![image](https://github.com/user-attachments/assets/b895621f-2cca-4da0-92c1-26cc0ed9c1c5)
+### Celebration System
 
+Performance-based completion screens:
 
+* 100% Score
+* 75–99% Score
+* 50–74% Score
+* Below 50% Score
 
-### Quiz List
-* On Clicking take quiz button on homepage following ui will be displayed :
+Each range displays unique animations, emojis, and feedback messages.
 
-* Loading :
-![image](https://github.com/user-attachments/assets/6c79e79c-5649-4517-8eb2-e2027e9df084)
+---
 
+### Theme Support
 
-* Light Mode :
-![image](https://github.com/user-attachments/assets/85dfb1d7-e4a4-4ee6-8f3f-78dd16d9701a)
+* Light Mode
+* Dark Mode
+* Responsive Design
 
+---
 
-* Dark Mode :
-![image](https://github.com/user-attachments/assets/b7e933dc-a0cb-468c-85ff-645f0a48bcb7)
+### Performance Optimizations
 
+* Reusable Components
+* Context API
+* Lazy Loading
+* Route-Based Code Splitting
+* Reduced Code Duplication
+* Improved Maintainability
 
+---
 
-### Quiz Test
-* On Clicking any of the quiz from quiz list following ui will be displayed :
+## Tech Stack
 
-* Loading :
-![image](https://github.com/user-attachments/assets/6d7de2b2-1c0c-4507-8739-ef8eb3e66a70)
+### Frontend
 
+* React.js
+* Context API
+* Tailwind CSS
+* React Router
 
-* Light Mode :
-![image](https://github.com/user-attachments/assets/34f274f6-4cb3-435d-8566-562b6b57953a)
+### Backend
 
+* Node.js
+* Express.js
 
-* Dark Mode :
-![image](https://github.com/user-attachments/assets/d7e41c12-df97-4ef1-8e55-5c2c61ab8e59)
+### Database
 
+* MongoDB
 
+### Authentication
 
-### Quiz Completion
-* On Quiz completion following ui will be displayed :
+* JWT (JSON Web Tokens)
 
-* Based on user score following emoji animation and congratulating text will be shown :
+---
 
-* 100% score :
-![image](https://github.com/user-attachments/assets/92547a36-61b0-46ba-91a9-5f1d91dfb6b9)
+## Getting Started
 
+### Clone Repository
 
-* <100% and >=75% score :
-![image](https://github.com/user-attachments/assets/175e76f8-e06e-4864-98fb-de5838143990)
+```bash
+git clone <repository-url>
+cd quizchamps
+```
 
+### Install Dependencies
 
-* <75% and >=50% score :
-![image](https://github.com/user-attachments/assets/8b70716f-e539-4ece-8c19-4946abcc51cb)
+Frontend:
 
+```bash
+cd client
+npm install
+```
 
-* <50% score :
-![image](https://github.com/user-attachments/assets/78518c95-33b3-4a7e-9321-747cb5d03975)
+Backend:
 
+```bash
+cd server
+npm install
+```
 
-* Dark Mode :
-![image](https://github.com/user-attachments/assets/699860bb-3778-4f45-87f6-d651f651cda2)
+### Configure Environment Variables
 
+Create a `.env` file inside the server directory:
 
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
 
-### Analysis Report 
-* On Clicking Analysis button following ui will be displayed :
+### Run Development Servers
 
+Backend:
 
-* Light Mode :
-![image](https://github.com/user-attachments/assets/deac65fa-535d-4fa0-b9de-9cf6962d2355)
+```bash
+npm run dev
+```
 
+Frontend:
 
-* Dark Mode :
-![image](https://github.com/user-attachments/assets/d47b7ea0-1cfc-41f8-899c-764109ec72e3)
+```bash
+npm run dev
+```
+
+---
+
+
 
 
 
