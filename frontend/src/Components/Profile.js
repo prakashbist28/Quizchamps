@@ -93,7 +93,7 @@ const PwInput = ({ label, value, onChange, placeholder, disabled }) => {
 // ── Main component ────────────────────────────────────────────────────────────
 
 const Profile = () => {
-  const { user, token, updateUser } = useAuth();
+  const { token, updateUser } = useAuth();
   const fileRef = useRef(null);
 
   const [profile, setProfile] = useState(null);

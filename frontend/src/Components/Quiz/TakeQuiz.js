@@ -71,7 +71,8 @@ const TakeQuiz = () => {
       }
     };
     fetchQuiz();
-  }, [id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, token]);
 
   useEffect(() => {
     if (!quizFinished || !user || !quiz) return;
@@ -100,6 +101,7 @@ const TakeQuiz = () => {
     }, 1000);
     if (timeLeft === 0) handleNextQuestion();
     return () => clearInterval(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeLeft, quiz]);
 
   const handleOptionClick = (option) => setSelectedOption(option);
