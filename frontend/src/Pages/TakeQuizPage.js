@@ -8,7 +8,7 @@ function TakeQuizPage() {
   }, []);
 
   return (
-    <div className=" flex-grow overflow-x-scroll no-scrollbar flex flex-col dark:bg-black min-h-screen">
+    <div className=" flex-grow overflow-x-scroll no-scrollbar flex flex-col dark:bg-slate-900 min-h-screen">
       <TakeQuiz />
     </div>
   );

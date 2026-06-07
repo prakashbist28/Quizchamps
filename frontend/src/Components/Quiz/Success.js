@@ -11,7 +11,7 @@ function Success() {
         <div className='flex w-full items-center justify-center flex-col gap-4'>
           <button
             onClick={() => navigate('/createquiz')}
-            className=" px-4 py-2 bg-indigo-500 w-1/2 md:w-1/4 text-[16px] md:text-[20px] hover:-translate-y-2 border border-indigo-400 hover:bg-black hover:shadow-lg hover:shadow-indigo-400 text-white font-nine font-bold rounded-md transition duration-300"
+            className=" px-4 py-2 bg-blue-500 w-1/2 md:w-1/4 text-[16px] md:text-[20px] hover:-translate-y-2 border border-blue-400 hover:bg-black hover:shadow-lg hover:shadow-blue-400 text-white font-nine font-bold rounded-md transition duration-300"
           >
             Add New Quiz
           </button>

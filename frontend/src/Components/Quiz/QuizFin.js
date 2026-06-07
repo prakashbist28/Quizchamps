@@ -27,17 +27,17 @@ function QuizFin({ score, quiz, selectedAnswers }) {
         </h1>
         <p className="dark:text-white pb-4 font-semibold font-nine text-[20px]">
           You scored :{" "}
-          <span className="font-bold text-[32px] font-ten text-indigo-400">
+          <span className="font-bold text-[32px] font-ten text-blue-400">
             {score}
           </span>{" "}
           out of{" "}
-          <span className="font-bold text-[32px] font-ten text-indigo-400">
+          <span className="font-bold text-[32px] font-ten text-blue-400">
             {quiz.questions.length}
           </span>
         </p>
         <p className="dark:text-white pb-10 font-semibold font-nine text-[20px]">
           Your Success Rate :{" "}
-          <span className="font-bold text-[32px] font-ten text-indigo-400">
+          <span className="font-bold text-[32px] font-ten text-blue-400">
             {winpercentage} %{" "}
           </span>
         </p>
@@ -128,7 +128,7 @@ function QuizFin({ score, quiz, selectedAnswers }) {
 
           <button
             onClick={() => window.location.reload()}
-            className=" px-4 py-2 bg-indigo-500 w-1/2 md:w-1/4 text-[16px] md:text-[20px] hover:-translate-y-2 border border-indigo-400 hover:bg-black hover:shadow-lg hover:shadow-indigo-400 text-white font-nine font-bold rounded-md transition duration-300"
+            className=" px-4 py-2 bg-blue-500 w-1/2 md:w-1/4 text-[16px] md:text-[20px] hover:-translate-y-2 border border-blue-400 hover:bg-black hover:shadow-lg hover:shadow-blue-400 text-white font-nine font-bold rounded-md transition duration-300"
           >
             Restart Quiz
           </button>
@@ -151,9 +151,9 @@ function QuizFin({ score, quiz, selectedAnswers }) {
       </div>
       : 
       <div className="flex flex-col gap-4 md:gap-8 w-full min-h-screen items-center text-center m-auto justify-center">
-      <h1 className="font-ten text-[18px] md:text-[24px] font-bold text-indigo-400"> Quiz is Loading... BE PREPARED</h1>
-      <BeatLoader size={150} color="#a181f0" />
-      <h1 className="font-ten text-[14px] md:text-[20px] font-bold text-indigo-500"> Note : There is time limit for each question</h1>
+      <h1 className="font-ten text-[18px] md:text-[24px] font-bold text-blue-400"> Quiz is Loading... BE PREPARED</h1>
+      <BeatLoader size={150} color="#f97316" />
+      <h1 className="font-ten text-[14px] md:text-[20px] font-bold text-blue-500"> Note : There is time limit for each question</h1>
     </div>}
 
     </div>

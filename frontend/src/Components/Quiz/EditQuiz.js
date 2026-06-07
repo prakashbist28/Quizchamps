@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FiGlobe, FiLock, FiTrash2, FiCheck, FiPlus } from 'react-icons/fi';
 import { LuClock, LuFileText, LuLightbulb } from 'react-icons/lu';
 import RingLoader from 'react-spinners/RingLoader';
@@ -9,15 +9,8 @@ import { useAuth } from '../../Context/AuthContext';
 import CategoryTagSelector from './CategoryTagSelector';
 import { toastOptions } from '../../constants/toastConfig';
 import { PRESET_TIMES, OPTION_LABELS, DIFFICULTIES, DIFFICULTY_HINT } from '../../constants/quizConstants';
-const blankQuestion = () => ({
-  question: '',
-  options: ['', '', '', ''],
-  answer: '',
-  timeLimit: 30,
-  explanation: '',
-});
+import PageLoader from '../ui/PageLoader';
 
-// ── Shared input styles ───────────────────────────────────────────────────────
 const fieldCls =
   'w-full p-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 dark:text-white rounded-lg text-sm font-nine focus:outline-none focus:ring-2 focus:ring-blue-500';
 
@@ -29,7 +22,7 @@ const SectionLabel = ({ icon: Icon, children }) => (
 );
 
 // ── Question card ─────────────────────────────────────────────────────────────
-const QuestionCard = ({ q, index, total, onChange, onDelete }) => {
+const QuestionCard = ({ q, index, total, onChange, onDelete, disabled }) => {
   const isPreset = PRESET_TIMES.includes(Number(q.timeLimit));
   const [customTime, setCustomTime] = useState(!isPreset && Number(q.timeLimit) > 0);
 
@@ -69,7 +62,7 @@ const QuestionCard = ({ q, index, total, onChange, onDelete }) => {
         <button
           type="button"
           onClick={() => onDelete(index)}
-          disabled={total <= 1}
+          disabled={disabled || total <= 1}
           title={total <= 1 ? 'Cannot delete the only question' : 'Delete question'}
           className="flex items-center gap-1.5 px-3 py-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition text-xs font-nine font-semibold disabled:opacity-30 disabled:cursor-not-allowed"
         >
@@ -90,6 +83,7 @@ const QuestionCard = ({ q, index, total, onChange, onDelete }) => {
             placeholder="What's the question?"
             required
             rows={2}
+            disabled={disabled}
             className={`${fieldCls} resize-none`}
           />
         </div>
@@ -114,8 +108,9 @@ const QuestionCard = ({ q, index, total, onChange, onDelete }) => {
                   <button
                     type="button"
                     onClick={() => markCorrect(optIdx)}
+                    disabled={disabled}
                     title={opt.trim() ? 'Mark as correct answer' : 'Type an option first'}
-                    className={`shrink-0 w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold transition duration-200 ${
+                    className={`shrink-0 w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold transition duration-200 disabled:cursor-not-allowed ${
                       isCorrect
                         ? 'border-green-500 bg-green-500 text-white'
                         : 'border-slate-300 dark:border-slate-500 text-slate-400 hover:border-blue-400 hover:text-blue-500'
@@ -129,7 +124,8 @@ const QuestionCard = ({ q, index, total, onChange, onDelete }) => {
                     onChange={(e) => handleOptionChange(optIdx, e.target.value)}
                     placeholder={`Option ${OPTION_LABELS[optIdx]}`}
                     required
-                    className="flex-1 bg-transparent border-none outline-none text-sm font-nine dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-500"
+                    disabled={disabled}
+                    className="flex-1 bg-transparent border-none outline-none text-sm font-nine dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-500 disabled:opacity-60"
                   />
                 </div>
               );
@@ -156,7 +152,8 @@ const QuestionCard = ({ q, index, total, onChange, onDelete }) => {
                 key={t}
                 type="button"
                 onClick={() => selectPreset(t)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-nine font-semibold border transition duration-200 ${
+                disabled={disabled}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-nine font-semibold border transition duration-200 disabled:opacity-50 ${
                   !customTime && Number(q.timeLimit) === t
                     ? 'bg-blue-600 border-blue-600 text-white'
                     : 'border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-blue-400 hover:text-blue-600'
@@ -168,7 +165,8 @@ const QuestionCard = ({ q, index, total, onChange, onDelete }) => {
             <button
               type="button"
               onClick={() => { setCustomTime(true); patch({ timeLimit: '' }); }}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-nine font-semibold border transition duration-200 ${
+              disabled={disabled}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-nine font-semibold border transition duration-200 disabled:opacity-50 ${
                 customTime
                   ? 'bg-orange-500 border-orange-500 text-white'
                   : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-orange-400 hover:text-orange-500'
@@ -185,6 +183,7 @@ const QuestionCard = ({ q, index, total, onChange, onDelete }) => {
                 onChange={(e) =>
                   patch({ timeLimit: e.target.value === '' ? '' : Number(e.target.value) })
                 }
+                disabled={disabled}
                 placeholder="sec"
                 className="w-20 text-center px-2 py-1.5 rounded-full text-xs font-nine border border-orange-400 bg-transparent dark:text-white focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
@@ -204,6 +203,7 @@ const QuestionCard = ({ q, index, total, onChange, onDelete }) => {
             placeholder="Why is this the correct answer? Shown in the analysis after the quiz."
             rows={2}
             maxLength={500}
+            disabled={disabled}
             className={`${fieldCls} resize-none`}
           />
         </div>
@@ -213,7 +213,11 @@ const QuestionCard = ({ q, index, total, onChange, onDelete }) => {
 };
 
 // ── Main component ────────────────────────────────────────────────────────────
-const CreateQuiz = () => {
+const EditQuiz = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { token, user } = useAuth();
+
   const [quizTitle, setQuizTitle] = useState('');
   const [description, setDescription] = useState('');
   const [visibility, setVisibility] = useState('public');
@@ -221,17 +225,57 @@ const CreateQuiz = () => {
   const [category, setCategory] = useState('General Knowledge');
   const [customCategory, setCustomCategory] = useState('');
   const [tags, setTags] = useState([]);
-  const [questions, setQuestions] = useState([blankQuestion()]);
-  const [loading, setLoading] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const [fetching, setFetching] = useState(true);
+  const [saving, setSaving] = useState(false);
 
-  const navigate = useNavigate();
-  const { token } = useAuth();
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/quiz/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          toast.error(data.message || 'Quiz not found', toastOptions);
+          navigate('/myquizzes');
+          return;
+        }
+
+        const ownerId = typeof data.createdBy === 'object' ? data.createdBy._id : data.createdBy;
+        if (ownerId !== user?._id) {
+          toast.error('You are not authorized to edit this quiz', toastOptions);
+          navigate('/myquizzes');
+          return;
+        }
+
+        setQuizTitle(data.title);
+        setDescription(data.description || '');
+        setVisibility(data.visibility === 'private' ? 'private' : 'public');
+        setDifficulty(data.difficulty || 'Medium');
+        setCategory(data.category || 'General Knowledge');
+        setCustomCategory(data.customCategory || '');
+        setTags(Array.isArray(data.tags) ? data.tags : []);
+        setQuestions(data.questions.map((q) => ({ ...q, explanation: q.explanation || '' })));
+      } catch {
+        toast.error('Failed to load quiz', toastOptions);
+        navigate('/myquizzes');
+      } finally {
+        setFetching(false);
+      }
+    };
+    fetchQuiz();
+  }, [id, user, navigate, token]);
 
   const handleAddQuestion = () =>
-    setQuestions((prev) => [...prev, blankQuestion()]);
+    setQuestions((prev) => [...prev, { question: '', options: ['', '', '', ''], answer: '', timeLimit: 30, explanation: '' }]);
 
   const handleDeleteQuestion = (index) => {
-    if (questions.length <= 1) return;
+    if (questions.length === 1) {
+      toast.warning('A quiz must have at least one question', toastOptions);
+      return;
+    }
     setQuestions((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -243,7 +287,7 @@ const CreateQuiz = () => {
     });
   };
 
-  const handleCreateQuiz = async (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
 
     if (category === 'Other' && !customCategory.trim()) {
@@ -263,10 +307,10 @@ const CreateQuiz = () => {
       }
     }
 
-    setLoading(true);
+    setSaving(true);
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/createquiz`, {
-        method: 'POST',
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/quiz/${id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -274,27 +318,24 @@ const CreateQuiz = () => {
         body: JSON.stringify({ title: quizTitle, description, questions, visibility, difficulty, category, customCategory, tags }),
       });
 
-      if (res.ok) {
-        navigate('/success');
-      } else {
-        const err = await res.json();
-        toast.warning(err.message, toastOptions);
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message || 'Failed to update quiz', toastOptions);
+        return;
       }
+
+      toast.success('Quiz updated successfully!', { ...toastOptions, autoClose: 2000 });
+      setTimeout(() => navigate('/myquizzes'), 1800);
     } catch {
-      toast.error('Network error. Please try again.', toastOptions);
+      toast.error('Server error. Please try again.', toastOptions);
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex flex-col gap-4 md:gap-8 w-full min-h-screen items-center justify-center">
-        <p className="font-ten text-lg font-bold text-blue-400">Creating your quiz…</p>
-        <RingLoader size={120} color="#f97316" />
-      </div>
-    );
-  }
+  // ── Loading ────────────────────────────────────────────────────────────────
+  if (fetching) return <PageLoader message="Loading quiz…" />;
 
   return (
     <>
@@ -302,18 +343,27 @@ const CreateQuiz = () => {
       <div className="p-6 w-full md:w-10/12 mx-auto mt-10 md:mt-20 mb-20">
 
         {/* Page header */}
-        <div className="mb-8">
-          <h1 className="font-first font-bold text-slate-900 dark:text-white text-4xl md:text-5xl">
-            Create a Quiz
-          </h1>
-          <p className="font-nine text-gray-500 dark:text-gray-400 mt-2">
-            Fill in the details then build your questions below.
-          </p>
+        <div className="flex items-start justify-between mb-8">
+          <div>
+            <h1 className="font-first font-bold text-slate-900 dark:text-white text-4xl md:text-5xl">
+              Edit Quiz
+            </h1>
+            <p className="font-nine text-gray-500 dark:text-gray-400 mt-2">
+              Update your quiz details and questions below.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => navigate('/myquizzes')}
+            className="shrink-0 text-sm font-nine text-gray-500 dark:text-gray-400 hover:text-blue-500 transition duration-200 mt-2"
+          >
+            ← My Quizzes
+          </button>
         </div>
 
-        <form onSubmit={handleCreateQuiz} className="space-y-6">
+        <form onSubmit={handleSave} className="space-y-6">
 
-          {/* ── Section 1: Quiz details ── */}
+          {/* ── Section 1: Quiz Details ── */}
           <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm">
             <div className="flex items-center gap-2.5 px-6 py-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/60">
               <span className="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-bold font-ten">1</span>
@@ -334,6 +384,7 @@ const CreateQuiz = () => {
                     onChange={(e) => setQuizTitle(e.target.value)}
                     placeholder="Give your quiz a catchy title"
                     required
+                    disabled={saving}
                     className={fieldCls}
                   />
                 </div>
@@ -350,6 +401,7 @@ const CreateQuiz = () => {
                     placeholder="Briefly describe what this quiz is about"
                     rows={3}
                     maxLength={500}
+                    disabled={saving}
                     className={`${fieldCls} resize-none`}
                   />
                   <p className="text-xs text-gray-400 font-nine mt-1 text-right">{description.length}/500</p>
@@ -364,6 +416,7 @@ const CreateQuiz = () => {
                     onCategoryChange={setCategory}
                     onCustomCategoryChange={setCustomCategory}
                     onTagsChange={setTags}
+                    disabled={saving}
                   />
                 </div>
 
@@ -381,7 +434,8 @@ const CreateQuiz = () => {
                         key={value}
                         type="button"
                         onClick={() => setVisibility(value)}
-                        className={`flex items-center gap-2 px-5 py-2.5 rounded-lg border font-nine font-semibold text-sm transition duration-200 ${
+                        disabled={saving}
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-lg border font-nine font-semibold text-sm transition duration-200 disabled:opacity-50 ${
                           visibility === value
                             ? 'bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-200 dark:shadow-blue-900'
                             : 'bg-transparent border-slate-200 dark:border-slate-600 text-gray-600 dark:text-gray-300 hover:border-blue-400'
@@ -410,7 +464,8 @@ const CreateQuiz = () => {
                         key={value}
                         type="button"
                         onClick={() => setDifficulty(value)}
-                        className={`px-5 py-2.5 rounded-lg border font-nine font-semibold text-sm transition duration-200 ${
+                        disabled={saving}
+                        className={`px-5 py-2.5 rounded-lg border font-nine font-semibold text-sm transition duration-200 disabled:opacity-50 ${
                           difficulty === value
                             ? cls
                             : 'bg-transparent border-slate-200 dark:border-slate-600 text-gray-600 dark:text-gray-300 hover:border-blue-400'
@@ -440,7 +495,8 @@ const CreateQuiz = () => {
               <button
                 type="button"
                 onClick={handleAddQuestion}
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-nine font-semibold text-blue-600 dark:text-blue-400 border border-blue-300 dark:border-blue-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition duration-200"
+                disabled={saving}
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-nine font-semibold text-blue-600 dark:text-blue-400 border border-blue-300 dark:border-blue-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition duration-200 disabled:opacity-50"
               >
                 <FiPlus className="size-4" />
                 Add Question
@@ -456,6 +512,7 @@ const CreateQuiz = () => {
                   total={questions.length}
                   onChange={handleQuestionChange}
                   onDelete={handleDeleteQuestion}
+                  disabled={saving}
                 />
               ))}
             </div>
@@ -464,7 +521,8 @@ const CreateQuiz = () => {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="mt-4 w-full py-5 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-400 dark:text-slate-500 rounded-xl hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 dark:hover:border-blue-600 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition duration-200 font-nine font-semibold text-sm flex items-center justify-center gap-2"
+              disabled={saving}
+              className="mt-4 w-full py-5 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-400 dark:text-slate-500 rounded-xl hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 dark:hover:border-blue-600 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition duration-200 font-nine font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FiPlus className="size-4" />
               Add Another Question
@@ -478,11 +536,25 @@ const CreateQuiz = () => {
             </p>
             <button
               type="submit"
-              className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-nine font-semibold rounded-lg border border-orange-400 hover:shadow-lg hover:shadow-orange-300 dark:hover:shadow-orange-900 hover:-translate-y-0.5 transition duration-300 text-sm"
+              disabled={saving}
+              className="flex items-center gap-2 px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-nine font-semibold rounded-lg border border-orange-400 hover:shadow-lg hover:shadow-orange-300 dark:hover:shadow-orange-900 hover:-translate-y-0.5 transition duration-300 text-sm disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 disabled:shadow-none"
             >
-              Create Quiz
+              {saving ? (
+                <>
+                  <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Saving…
+                </>
+              ) : (
+                'Save Changes'
+              )}
             </button>
           </div>
+
+          {saving && (
+            <div className="flex justify-center mt-6">
+              <RingLoader size={80} color="#f97316" />
+            </div>
+          )}
 
         </form>
       </div>
@@ -490,4 +562,4 @@ const CreateQuiz = () => {
   );
 };
 
-export default CreateQuiz;
+export default EditQuiz;
